@@ -1,0 +1,9 @@
+# The assembled archive is 239,275,554 bytes, above GitHub's 100 MB per-file
+# limit. It is rebuilt from Archive/Distribution/Part/ in one command; see
+# Documentation/Reference/Archive.md.
+Archive/Distribution/lean.tar.gz
+
+# Lake build output, produced by `lake build` inside the extracted project.
+# The whole tree is derived: one `tar -xzf` of the archive above rebuilds it,
+# and Archive/ is the copy of record.
+Source/Lean/

@@ -1,0 +1,27 @@
+# Line endings. The archive is a byte-for-byte record, so text is normalised to
+# LF both in the repository and in the working tree, on any platform. Without
+# this, a Windows checkout with core.autocrlf would silently change .lean files
+# and the tree would stop matching its own manifest.
+* text=auto eol=lf
+
+# Stated explicitly rather than relying on auto-detection, so the intent survives
+# a future change to the catch-all rule above.
+*.lean text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.sha256 text eol=lf
+
+# The published distribution: fourteen binary chunks, 234 MB in total. These are
+# the bytes that must never change, so they live in Git LFS and `-text` keeps any
+# end-of-line or diff filter away from them.
+Archive/Distribution/Part/lean.tar.gz.part* filter=lfs diff=lfs merge=lfs -text
+
+# The assembled archive, should it ever be tracked. It is ignored by default
+# because it is derived from the parts above by concatenation.
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+
+# The publication is 245 KB, ordinary blob territory. Keeping it out of LFS means
+# a reader can clone and open the PDF without the LFS client, which matters for
+# the one file most people come here for. Marked binary so no filter touches it.
+*.pdf -text
