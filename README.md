@@ -24,6 +24,8 @@ Nothing here is authored in this repository. Every byte under `Archive/` and `So
 - **`Archive.md`** - provenance, the splitting scheme, reassembly, and the verification record.
 - **`Inventory.md`** - the measured shape of the tree: file counts per library and the top-level map.
 
+**`.gitattributes`** - line endings normalised to LF for every text file, and the fourteen distribution parts routed through Git LFS, so the repository carries LFS pointers rather than 234 MB of binary chunks. The PDF stays out of LFS deliberately: at 245 KB it is ordinary blob territory, and a reader should not need the LFS client to open the announcement.
+
 ---
 
 ## Why it is arranged this way
@@ -34,7 +36,7 @@ Nothing here is authored in this repository. Every byte under `Archive/` and `So
 
 **The extracted project keeps its own casing.** It sits at `Source/Lean/` while the archive's root directory is `lean/`. That difference is deliberate and inert: `lakefile.toml` declares `name = "tree"` and `srcDir = "src"`, both relative and neither referring to the containing directory, so the outer name can be recased without touching a single project file. Verification was run before the recasing, while the directory still carried its published name, and the recipe for repeating it is in `Archive.md`.
 
-**Two derived things are excluded from git.** `Archive/Distribution/lean.tar.gz` exceeds GitHub's per-file limit and is one command away from the parts. `Source/Lean/` is the extraction of that same archive, rebuildable in one command, and `lake build` writes into it; `Archive/` is the copy of record. Everything else - the PDF, the fourteen parts, the manifest and this documentation - stays trackable.
+**Only build output is excluded from git.** The PDF, the fourteen parts, the manifest, the whole extracted tree and this documentation are all tracked. Two paths are not: `Archive/Distribution/lean.tar.gz`, because it exceeds GitHub's per-file limit and is one command away from the parts, and `Source/Lean/.lake/`, because it is what `lake build` writes. The Lean sources themselves are tracked deliberately - they are the artifact a reader actually opens and diffs, which a tarball is not.
 
 ---
 

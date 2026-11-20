@@ -37,6 +37,18 @@ The two-digit zero padding in `part01` is load-bearing: it makes a shell glob so
 
 ---
 
+## In git
+
+**The fourteen parts are stored in Git LFS.** `.gitattributes` routes `Archive/Distribution/Part/lean.tar.gz.part*` through the LFS filter, so a clone carries fourteen pointers of about 130 bytes each rather than 234 MB of binary chunks. The content lives in `.git/lfs/objects` and is materialised on checkout. Without the LFS client a checkout still succeeds, but the parts arrive as pointer text and reassembly produces a corrupt archive rather than an error, so `git lfs install` is a prerequisite for anyone rebuilding from the parts.
+
+**The assembled archive is not tracked.** It is derived by concatenation, and at 239 MB it would double the repository's binary weight for a file that one `cat` rebuilds.
+
+**The PDF is an ordinary blob.** At 245 KB, LFS would impose a client dependency on the one file most readers open, for no benefit.
+
+**Line endings are normalised to LF.** `* text=auto eol=lf` in `.gitattributes` applies to the extracted tree as well, so a checkout on any platform yields files byte-identical to the archive and to `Manifest.sha256`.
+
+---
+
 ## Reassembly
 
 From `Archive/Distribution`:

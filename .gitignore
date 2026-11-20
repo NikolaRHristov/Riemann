@@ -3,7 +3,6 @@
 # Documentation/Reference/Archive.md.
 Archive/Distribution/lean.tar.gz
 
-# Lake build output, produced by `lake build` inside the extracted project.
-# The whole tree is derived: one `tar -xzf` of the archive above rebuilds it,
-# and Archive/ is the copy of record.
-Source/Lean/
+# Lake build output. The source tree itself is tracked; only what `lake build`
+# writes into it is not.
+Source/Lean/.lake/
